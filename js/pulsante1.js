@@ -20,7 +20,8 @@ export function creaPulsante1(app) {
     pulsante1 = new Graphics()
         .roundRect(0, 0, 200, 60, 15)
         .fill({
-            color: 0x016eb4
+            //color: 0x016eb4
+            color: 0xff0000
         })
     pulsante1.position.set((app.screen.width - pulsante1.width) / 2, 180);
     app.stage.addChild(pulsante1);
