@@ -21,7 +21,7 @@ export function creaPulsante1(app) {
         .roundRect(0, 0, 200, 60, 15)
         .fill({
             //color: 0x016eb4
-            color: 0xff0000
+            color: 0x00ff00
         })
     pulsante1.position.set((app.screen.width - pulsante1.width) / 2, 180);
     app.stage.addChild(pulsante1);
