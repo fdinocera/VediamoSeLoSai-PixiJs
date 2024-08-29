@@ -16,8 +16,19 @@
 
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 export default defineConfig({
+  plugins: [
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'assets/**/*',
+          dest: 'assets'
+        }
+      ]
+    })
+  ],
   root: './', // Indica la cartella root del progetto
   build: {
     outDir: 'dist',
