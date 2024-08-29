@@ -1,8 +1,7 @@
 import { Howl } from 'howler';
 
 const ding = new Howl({
-    //src: './assets/sound/ding.wav',
-    src: './ding.wav',
+    src: './assets/sound/ding.wav',    
     volume: 0.6
 });
 
