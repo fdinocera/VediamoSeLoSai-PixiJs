@@ -1,6 +1,5 @@
 import { Sprite, Assets } from "pixi.js";
 
-
 let punti25Sprite;
 export async function caricaPunti25(app) {
     const punti25texture = await Assets.load('./assets/img/25_punti_rosso.png');
@@ -12,11 +11,7 @@ export async function caricaPunti25(app) {
     app.stage.addChild(punti25Sprite);
 }
 
-// export function creaPunti25(app) {
-
-// }
-
-export function animazionePunti25(app) {
+export function animazione25Punti(app) {
 
     let counter = 0;
     let timeCount = 0;

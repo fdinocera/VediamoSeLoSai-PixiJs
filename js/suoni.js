@@ -17,6 +17,10 @@ const suonoPulsante = new Howl({
     src: './assets/sound/pulsante.wav'
 })
 
+// export class suonoPulsante{
+
+// }
+
 const tada = new Howl({
     src: './assets/sound/tada.flac'
 })

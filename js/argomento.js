@@ -1,21 +1,24 @@
 import { Text } from "pixi.js";
 
+export class Argomento {
+    txtArgomento;
+    refApp;
 
-let txtArgomento;
+    constructor(app) {
+        this.refApp = app;
+        this.txtArgomento = new Text({
+            text: '',
+            style: {
+                fill: '#016eb4',
+                fontFamily: 'BRLNSDB',
+                fontSize: 24
+            }
+        })
+        this.refApp.stage.addChild(this.txtArgomento);
+    }
 
-export function creaArgomento(app) {
-    txtArgomento = new Text({
-        text: '',
-        style: {
-            fill: '#016eb4',
-            fontFamily: 'BRLNSDB',
-            fontSize: 24
-        }
-    })
-    app.stage.addChild(txtArgomento);
-}
-
-export function setArgomento(argomento, app) {
-    txtArgomento.text = argomento;
-    txtArgomento.position.set((app.screen.width - txtArgomento.width) / 2, 50);
+    setArgomento(argomento) {
+        this.txtArgomento.text = argomento;
+        this.txtArgomento.position.set((this.refApp.screen.width - this.txtArgomento.width) / 2, 50);
+    }
 }

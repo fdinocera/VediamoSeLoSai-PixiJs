@@ -1,12 +1,7 @@
 import { Application, Assets } from 'pixi.js';
-import { caricaSpuntaVerde } from './spuntaVerde.js';
-import { caricaIcsRossa } from './icsRossa.js';
-import { creaPulsante1 } from './pulsante1.js';
-import { creaPulsante2 } from './pulsante2.js';
-import { creaPulsante3 } from './pulsante3.js';
-import { caricaQuiz } from './quiz.js';
-import { creaArgomento } from './argomento.js';
-import { creaDomanda } from './domanda.js';
+import { SpuntaVerde } from './spuntaVerde.js';
+import { IcsRossa } from './icsRossa.js';
+import { Pulsante } from './pulsante.js';
 import { creaPunti } from './punti.js';
 import { caricaPunti25 } from './punti25.js';
 import { caricaPannelloBlu, creaPannelloBlu } from './pannelloBlu.js';
@@ -16,6 +11,20 @@ import { Intestazione } from './intestazione.js';
 import { caricaPannelloLivello, creaPannelloLivelloSprite } from './pannelloLivello.js';
 import { caricaPannelloFinale, creaPannelloFinaleSprite } from './pannelloFinale.js';
 import { caricaBackground } from './background.js';
+import { Argomento } from './argomento.js';
+import { preloadDbQuiz } from './quiz.js';
+import { Quiz } from './quiz.js';
+import { Domanda } from './domanda.js';
+import { playPulsante as playSoundPulsante, play3x } from './suoni.js';
+import { assegna25Punti } from './punti.js';
+import { animazione25Punti } from './punti25.js';
+
+
+//oggetti globali
+//export let gArgomento;
+export let gQuiz;
+export let gDomanda;
+
 
 
 (async () => {
@@ -32,31 +41,70 @@ import { caricaBackground } from './background.js';
     globalThis.__PIXI_STAGE__ = app.stage;
     globalThis.__PIXI_RENDERER__ = app.renderer;
 
+    // attende pre-caricamento quiz
+    await preloadDbQuiz();
+    await Assets.load('./assets/font/BRLNSDB.TTF');
+
 
     caricaBackground(app);
-    caricaFont();
-    caricaQuiz(app);
-    caricaSpuntaVerde(app);
-    caricaIcsRossa(app);
     caricaPannelloBlu(app);
     caricaPannelloBonus(app);
     caricaPannelloFinale(app);
     caricaPannelloLivello(app);
     caricaPunti25(app);
 
-    //carica font
-    async function caricaFont() {
-        await Assets.load('./assets/font/BRLNSDB.TTF');
+    new Intestazione(app);
+    let gArgomento = new Argomento(app);
+    gQuiz = new Quiz(app);
+    gDomanda = new Domanda(app);
+
+    const gIcsRossa = new IcsRossa(app);
+    const gSpuntaVerde = new SpuntaVerde(app);
+
+    function p2() {
+        console.log('click p2')
+    }
+    // crea pulsanti
+    let pulsante1 = new Pulsante(app, 180, pulsante1Click);
+    let pulsante2 = new Pulsante(app, 250, p2);
+    let pulsante3 = new Pulsante(app, 320, p2);
+
+    popolaCampi();
+
+    function pulsante1Click() {
+        if (gSpuntaVerde.isVisible()) {
+            pulsante1.resetPulsante();
+            gSpuntaVerde.hide();
+            gIcsRossa.hide();
+            gQuiz.quizNext(app);
+            popolaCampi();
+            play3x();
+        } else {
+            pulsante1.evidenziaPulsante();
+            // controllaRisposta(1, appRef);
+            playSoundPulsante();
+            if (gQuiz.getRispostaEsatta() === 1) {
+                gSpuntaVerde.show(1);
+                assegna25Punti(app);
+                animazione25Punti(app);
+
+                risposteEsatteStage++;
+                puntiGuadagnati += 25;
+            } else {
+                gIcsRossa.show(1);
+                gSpuntaVerde.show(gQuiz.getRispostaEsatta());
+            }
+        }
     }
 
-    new Intestazione(app);
-    creaArgomento(app);
-    creaDomanda(app);
-    creaPulsante1(app);
-    creaPulsante2(app);
-    creaPulsante3(app);
-    //creaSpuntaVerde(app);
-    //creaIcsRossa(app);
+    function popolaCampi() {
+        gArgomento.setArgomento(gQuiz.getArgomento());
+        gDomanda.setDomanda(gQuiz.getDomanda());
+        pulsante1.setTextPulsante(gQuiz.getTextPulsante1());
+        pulsante2.setTextPulsante(gQuiz.getTextPulsante2());
+        pulsante3.setTextPulsante(gQuiz.getTextPulsante3());
+    }
+
     //creaPunti25(app);
     creaPannelloBlu(app);
     creaPannelloBonusSprite(app);

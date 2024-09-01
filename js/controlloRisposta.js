@@ -1,25 +1,26 @@
-import { rispostaEsatta } from "./quiz";
-import { showSpuntaVerde } from "./spuntaVerde";
-import { showIcsRossa } from "./icsRossa";
+//import { rispostaEsatta } from "./quiz";
+//import { show } from "./spuntaVerde";
+//import { showIcsRossa } from "./icsRossa";
 import { assegna25Punti } from "./punti";
-import { animazionePunti25 } from "./punti25";
+import { animazione25Punti } from "./punti25";
 import { playDingErrore } from "./suoni";
+import { gQuiz } from "./main";
 
 export let puntiGuadagnati = 0;
 export let risposteEsatteStage = 0;
 
 export function controllaRisposta(pulsante, app) {
 
-    if (rispostaEsatta === pulsante) {
-        showSpuntaVerde(pulsante);
+    if (gQuiz.getRispostaEsatta() === pulsante) {
+        show(pulsante);
         assegna25Punti(app);
-        animazionePunti25(app);
+        animazione25Punti(app);
 
         risposteEsatteStage++;
         puntiGuadagnati += 25;
     } else {
         playDingErrore();
-        showSpuntaVerde(rispostaEsatta);
+        show(rispostaEsatta);
         showIcsRossa(pulsante);
     }
 }

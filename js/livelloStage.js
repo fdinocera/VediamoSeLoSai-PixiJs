@@ -8,9 +8,9 @@ let quizCounter = 0;
 let txtLivelloStage;
 let appRef;
 ////////////////////////////////////
-let stageCounter = 10;
+let stageCounter = 1;
 ////////////////////////////////////
-let livelloCounter = 10;
+let livelloCounter = 1;
 
 export function creaLivelloStage(app) {
     appRef = app;

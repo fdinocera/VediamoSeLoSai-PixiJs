@@ -12,14 +12,13 @@
   "devDependencies": {
     "howler": "^2.2.3",
     "pixi.js": "^8.3.3",
-    "vercel": "^32.3.0",
+    "vercel": "^37.2.1",
     "vite": "^5.4.2",
     "vite-plugin-static-copy": "^1.0.6"
   },
   "dependencies": {
     "git": "^0.1.5",
     "howler": "^2.2.3",
-    "pixi.js": "^8.3.3",
-    "vite": "^5.4.2"
+    "pixi.js": "^8.3.3"
   }
 }

@@ -1,27 +1,30 @@
 import { Assets, Sprite } from 'pixi.js';
 
-let icsSprite;
-export async function caricaIcsRossa(app) {
-    const icsTexture = await Assets.load('./assets/img/ics.png');
-    icsSprite = Sprite.from(icsTexture);    
-    icsSprite.scale = 0.3;
-    icsSprite.position.x = (screen.width - icsSprite.width) / 2 + 100;
-    icsSprite.visible = false;
-    app.stage.addChild(icsSprite);
-}
+//const icsTexture = await Assets.load('./assets/img/ics.png');
 
-// export function creaIcsRossa(app) {
+export class IcsRossa {
+    icsSprite;
 
-// }
+    constructor(app) {
+         Assets.load('./assets/img/ics.png')
+            .then(sprite => {
+                this.icsSprite = Sprite.from(sprite);
+                this.icsSprite.scale = 0.3;
+                this.icsSprite.position.x = (screen.width - this.icsSprite.width) / 2 + 100;
+                this.icsSprite.visible = false;
+                this.icsSprite.zIndex = 10;
+                app.stage.addChild(this.icsSprite);
+            })
+    }
 
-export function showIcsRossa(pulsante) {
+    show(pulsante) {
+        if (pulsante === 1) this.icsSprite.position.y = 200;
+        if (pulsante === 2) this.icsSprite.position.y = 270;
+        if (pulsante === 3) this.icsSprite.position.y = 340;
+        this.icsSprite.visible = true;
+    };
 
-    if (pulsante === 1) icsSprite.position.y = 200;
-    if (pulsante === 2) icsSprite.position.y = 270;
-    if (pulsante === 3) icsSprite.position.y = 340;
-    icsSprite.visible = true;
-};
-
-export function hideIcsRossa() {
-    icsSprite.visible = false;
+    hide() {
+        this.icsSprite.visible = false;
+    }
 }
