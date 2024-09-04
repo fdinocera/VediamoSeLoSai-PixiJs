@@ -1,11 +1,10 @@
 import { Assets, Sprite } from 'pixi.js';
-
-//const icsTexture = await Assets.load('./assets/img/ics.png');
+import { app } from './main';
 
 export class IcsRossa {
     icsSprite;
 
-    constructor(app) {
+    constructor() {
          Assets.load('./assets/img/ics.png')
             .then(sprite => {
                 this.icsSprite = Sprite.from(sprite);

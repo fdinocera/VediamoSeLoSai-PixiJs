@@ -1,134 +1,142 @@
 import { Assets, Sprite, Text } from 'pixi.js';
-import { setRisposteEsatteStage } from './controlloRisposta';
-import { getStageCounter } from './livelloStage';
-import { viewPunti, getPuntiPartita } from './punti';
-import { playDing, playTada } from './suoni';
-import { showPannelloLivello } from './pannelloLivello';
+import { play3x, playDing, playTada } from './suoni';
+import { gDatiGioco, gPannelloBonus, gPunteggio,gPannelloLivello, gQuiz } from './main';
+import { gLivelloStage } from './main';
+import { app } from './main';
 
-let pannelloBonus;
-export async function caricaPannelloBonus(app) {
-    const pannelloBonusTexture = await Assets.load('./assets/img/pannelloBonus.png');
-    pannelloBonus = Sprite.from(pannelloBonusTexture);
-    pannelloBonus.scale = 0.28;
-    pannelloBonus.position.x = (screen.width - pannelloBonus.width) / 2;
-    pannelloBonus.position.y = 90;
-    pannelloBonus.visible = false;
-    app.stage.addChild(pannelloBonus);
-
-    pannelloBonus.eventMode = 'static';
-    pannelloBonus.on('pointerdown', clickPannelloBonus);
-    pannelloBonus.cursor = 'pointer';
+let pannelloBonusTexture;
+export async function preloadPannelloBonus() {
+    pannelloBonusTexture = await Assets.load('./assets/img/pannelloBonus.png');
 }
 
-let txt1PannelloBonus;
-let txt2PannelloBonus;
-let txt3PannelloBonus;
+export class PannelloBonus {
+    pannelloBonus;
+    txt1PannelloBonus;
+    txt2PannelloBonus;
+    txt3PannelloBonus;
 
-let appRef;
+    constructor(callback) {
+        this.pannelloBonus = Sprite.from(pannelloBonusTexture);
+        this.pannelloBonus.scale = 0.28;
+        this.pannelloBonus.position.x = (screen.width - this.pannelloBonus.width) / 2;
+        this.pannelloBonus.position.y = 90;
+        this.pannelloBonus.visible = false;
+        this.pannelloBonus.zIndex = 20;
+        this.pannelloBonus.eventMode = 'static';
+        this.pannelloBonus.on('pointerdown', callback);
+        this.pannelloBonus.cursor = 'pointer';
+        app.stage.addChild(this.pannelloBonus);
 
-export function creaPannelloBonusSprite(app) {
 
-    appRef = app;   
+        //testo1 pannello
+        this.txt1PannelloBonus = new Text({
+            text: '',
+            style: {
+                fill: '#ffffff', fontFamily: 'BRLNSDB',
+                fontSize: 22,
+                wordWrap: true,
+                wordWrapWidth: 180,
+                align: 'center'
+            }
+        })
+        this.txt1PannelloBonus.zIndex = 25;
+        app.stage.addChild(this.txt1PannelloBonus);
 
-    //testo1 pannello bonus
-    txt1PannelloBonus = new Text({
-        text: '',
-        style: {
-            fill: '#ffffff', fontFamily: 'BRLNSDB',
-            fontSize: 22,
-            wordWrap: true,
-            wordWrapWidth: 180,
-            align: 'center'
-        }
-    })
-    app.stage.addChild(txt1PannelloBonus);
+        //testo2 pannello
+        this.txt2PannelloBonus = new Text({
+            text: '',
+            style: {
+                fill: '#ffffff', fontFamily: 'BRLNSDB',
+                fontSize: 22,
+                wordWrap: true,
+                wordWrapWidth: 180,
+                align: 'center'
+            }
+        })
+        this.txt2PannelloBonus.zIndex = 25;
+        app.stage.addChild(this.txt2PannelloBonus);
 
-    //testo2 pannello
-    txt2PannelloBonus = new Text({
-        text: '',
-        style: {
-            fill: '#ffffff', fontFamily: 'BRLNSDB',
-            fontSize: 22,
-            wordWrap: true,
-            wordWrapWidth: 180,
-            align: 'center'
-        }
-    })
-    app.stage.addChild(txt2PannelloBonus);
+        //testo1 pannello
+        this.txt3PannelloBonus = new Text({
+            text: '',
+            style: {
+                fill: '#ffffff', fontFamily: 'BRLNSDB',
+                fontSize: 20,
+                wordWrap: true,
+                wordWrapWidth: 180,
+                align: 'center'
+            }
+        })
+        this.txt3PannelloBonus.zIndex = 25;
+        app.stage.addChild(this.txt3PannelloBonus);
+    }
 
-    //testo1 pannello
-    txt3PannelloBonus = new Text({
-        text: '',
-        style: {
-            fill: '#ffffff', fontFamily: 'BRLNSDB',
-            fontSize: 20,
-            wordWrap: true,
-            wordWrapWidth: 180,
-            align: 'center'
-        }
-    })
-    app.stage.addChild(txt3PannelloBonus);
-}
+    show() {
+        //testo1
+        this.txt1PannelloBonus.text = `Stage ${gLivelloStage.getStage()} completato!`;
+        this.txt1PannelloBonus.position.set((screen.width - this.txt1PannelloBonus.width) / 2, 110);
+        this.txt1PannelloBonus.visible = true;
 
-export function showPannelloBonus() {
+        //testo2
+        this.txt2PannelloBonus.text = '4 Risposte Esatte';
+        this.txt2PannelloBonus.position.set((screen.width - this.txt2PannelloBonus.width) / 2, 170);
+        this.txt2PannelloBonus.visible = true;
 
-    //testo1
-    txt1PannelloBonus.text = `Stage ${getStageCounter()} completato!`;
-    txt1PannelloBonus.position.set((screen.width - txt1PannelloBonus.width) / 2, 110);
-    txt1PannelloBonus.visible = true;
+        //testo3
+        this.txt3PannelloBonus.text = `100 Punti Bonus!`;
+        this.txt3PannelloBonus.position.set((screen.width - this.txt3PannelloBonus.width) / 2, 220);
+        this.txt3PannelloBonus.visible = true;
 
-    //testo2
-    txt2PannelloBonus.text = '4 Risposte Esatte';
-    txt2PannelloBonus.position.set((screen.width - txt2PannelloBonus.width) / 2, 170);
-    txt2PannelloBonus.visible = true;
+        this.pannelloBonus.visible = true;
+        playTada();
+    }
 
-    //testo3
-    txt3PannelloBonus.text = `100 Punti Bonus!`;
-    txt3PannelloBonus.position.set((screen.width - txt3PannelloBonus.width) / 2, 220);
-    txt3PannelloBonus.visible = true;
+    hidePannelloBonus() {
+        this.pannelloBonus.visible = false;
+        this.txt1PannelloBonus.visible = false;
+        this.txt2PannelloBonus.visible = false;
+        this.txt3PannelloBonus.visible = false;
+        this.animate100Punti();
+    }
 
-    pannelloBonus.visible = true;
-    playTada();
-}
+    timeCount = 0;
+    animate100Punti() {
+        let counter = 0;
+        let pt = gDatiGioco.getPuntiGuadagnati();
 
-export function hidePannelloBonus() {
-    pannelloBonus.visible = false;
-    txt1PannelloBonus.visible = false;
-    txt2PannelloBonus.visible = false;
-    txt3PannelloBonus.visible = false;
-    animate100Punti(appRef);
-}
+        // Definisci la funzione di callback per l'animazione
+        const animatePoints = (time) => {
+            this.timeCount += time.deltaTime;
+            if (this.timeCount > 13) {
+                this.timeCount = 0;
+                gPunteggio.viewPunti('Punti ' + (pt += 20), app);
+                counter++;
+                playDing();
+                if (counter > 4) {
+                    app.ticker.remove(animatePoints); // Rimuovi solo questa funzione dal ticker
+                    this.timeCount = 0;
+                }
+            }
+        };
 
-function clickPannelloBonus() {
-    hidePannelloBonus();
-    setRisposteEsatteStage(0);
-
-    if (getStageCounter() === 10) {
-        showPannelloLivello();
+        // Aggiungi la funzione di callback al ticker
+        app.ticker.add(animatePoints);
     }
 }
 
-let timeCount = 0;
-export function animate100Punti(app) {
-    let counter = 0;
-    let pt = getPuntiPartita();
+//callback click pannello Bonus
+export function clickPannelloBonus() {
 
-    // Definisci la funzione di callback per l'animazione
-    const animatePoints = (time) => {
-        timeCount += time.deltaTime;
-        if (timeCount > 13) {
-            timeCount = 0;
+    gPannelloBonus.hidePannelloBonus();
+    gDatiGioco.resetRisposteEsatteStage();
 
-            viewPunti('Punti ' + (pt += 20), app);
-            counter++;
-            playDing();
-            if (counter > 4) {
-                app.ticker.remove(animatePoints); // Rimuovi solo questa funzione dal ticker
-                timeCount = 0;
-            }
-        }
-    };
-
-    // Aggiungi la funzione di callback al ticker
-    app.ticker.add(animatePoints);
+    if (gLivelloStage.getStage() < 10) {
+        gLivelloStage.incrementaStage();
+        gLivelloStage.updateView();
+        gQuiz.quizNext(app);
+        gDatiGioco.popolaCampi();
+        play3x();
+    } else {
+        gPannelloLivello.show();
+    }
 }

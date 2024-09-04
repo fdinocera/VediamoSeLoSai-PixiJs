@@ -8,21 +8,12 @@ export async function preloadDbQuiz() {
 export class Quiz {
     quiz;
     quizCounter = 0;
-    //rispostaEsatta;
     currentQuiz;
 
-    constructor(app) {
-
+    constructor() {
         this.quiz = quizDb.split('\r\n');
+        this.randomize();
         this.currentQuiz = this.quiz[this.quizCounter].split(';');
-        //argomentoQuiz.setArgomento(currentQuiz[0]);
-
-        //setDomanda(currentQuiz[1], app);
-        // giocoDomanda.setDomanda(currentQuiz[1]);
-        // setPulsante1(currentQuiz[2], app);
-        // setPulsante2(currentQuiz[3], app);
-        // setPulsante3(currentQuiz[4], app);
-        //this.rispostaEsatta = parseInt(currentQuiz[5]);
         this.quizCounter++;
     }
 
@@ -45,7 +36,6 @@ export class Quiz {
     }
 
     getRispostaEsatta() {
-        //return this.rispostaEsatta;
         return parseInt(this.currentQuiz[5]);
     }
 
@@ -57,21 +47,20 @@ export class Quiz {
         this.quizCounter = 0;
     }
 
-    quizNext(app) {
-
+    quizNext() {
         this.currentQuiz = this.quiz[this.quizCounter].split(';');
         this.quizCounter++;
+    }
 
-        //const currentQuiz = quiz[quizCounter].split(';');
-        //setArgomento(currentQuiz[0]);
+    randomize() {
+        let k = 0;
 
-        //gArgomento.setArgomento(currentQuiz[0]);
+        for (k = 0; k < this.quiz.length; k++) {
+            let n = Math.floor(Math.random() * this.quiz.length);
 
-        // setDomanda(currentQuiz[1], app);
-        // setPulsante1(currentQuiz[2], app);
-        // setPulsante2(currentQuiz[3], app);
-        // setPulsante3(currentQuiz[4], app);
-        // rispostaEsatta = parseInt(currentQuiz[5]);
-
+            let tmp = this.quiz[k];
+            this.quiz[k] = this.quiz[n];
+            this.quiz[n] = tmp;
+        }
     }
 }

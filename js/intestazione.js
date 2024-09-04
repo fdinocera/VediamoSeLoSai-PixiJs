@@ -1,9 +1,9 @@
 import { Text } from "pixi.js";
+import { app } from "./main";
 
 export class Intestazione {    
 
-    constructor(app) {
-
+    constructor() {
         const txtParliamoDi = new Text({
             text: 'Parliamo di...',
             style: {

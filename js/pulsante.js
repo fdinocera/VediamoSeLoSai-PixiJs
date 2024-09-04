@@ -1,16 +1,12 @@
 import { Graphics, Text } from 'pixi.js';
-// import { controllaRisposta } from './controlloRisposta';
-// import { controlloFineStage } from './livelloStage';
-// import { play3x, playPulsante } from './suoni';
+import { app } from './main';
 
 export class Pulsante {
     pulsante;
-    txtPulsante1;
-    appRef;
+    txtPulsante1;    
     pulsanteClicked = false;
 
-    constructor(app, y, callbackClick) {
-        this.appRef = app;
+    constructor(y, callbackClick) {        
         this.pulsante = new Graphics()
             .roundRect(0, 0, 200, 60, 15)
             .fill({
@@ -41,7 +37,7 @@ export class Pulsante {
 
     setTextPulsante(testo) {
         this.txtPulsante1.text = testo;
-        let x = (this.appRef.screen.width - this.txtPulsante1.width) / 2
+        let x = (app.screen.width - this.txtPulsante1.width) / 2
         let y = (this.pulsante.height - this.txtPulsante1.height) / 2 + this.pulsante.y
         this.txtPulsante1.position.set(x, y);
     } 
@@ -57,23 +53,3 @@ export class Pulsante {
         this.pulsante.fill({ color: 0x016eb4 });
     }
 }
-
-
-// export function clickPulsante_2() {
-
-//     if (isSpuntaVerdeVisible()) {
-//         resetPulsante1();
-//         resetPulsante2();
-//         resetPulsante3();
-//         controlloFineStage(appRef);
-//         quizNext(appRef);
-//         play3x();
-//     } else {
-//         evidenziaPulsante1();
-//         controllaRisposta(1, appRef);
-//         playPulsante();
-//     }
-// }
-
-
-

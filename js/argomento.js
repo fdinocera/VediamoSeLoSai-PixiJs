@@ -1,11 +1,10 @@
 import { Text } from "pixi.js";
+import { app } from "./main";
 
 export class Argomento {
     txtArgomento;
-    refApp;
-
-    constructor(app) {
-        this.refApp = app;
+    
+    constructor() {        
         this.txtArgomento = new Text({
             text: '',
             style: {
@@ -14,11 +13,11 @@ export class Argomento {
                 fontSize: 24
             }
         })
-        this.refApp.stage.addChild(this.txtArgomento);
+        app.stage.addChild(this.txtArgomento);
     }
-
-    setArgomento(argomento) {
+    
+    setArgomento(argomento){
         this.txtArgomento.text = argomento;
-        this.txtArgomento.position.set((this.refApp.screen.width - this.txtArgomento.width) / 2, 50);
+        this.txtArgomento.position.set((app.screen.width - this.txtArgomento.width) / 2, 50);
     }
 }

@@ -1,11 +1,10 @@
 import { Text } from "pixi.js";
+import { app } from "./main";
 
 export class Domanda {
     txtDomanda;
-    appRef;
 
-    constructor(app) {
-        this.appRef = app;
+    constructor() {        
         this.txtDomanda = new Text({
             text: '',
             style: {
@@ -21,24 +20,16 @@ export class Domanda {
         app.stage.addChild(this.txtDomanda);
     }
 
-    setDomanda(domanda) {
-        // Imposta il testo
-        this.txtDomanda.text = domanda;
-
-        // Imposta prima una dimensione del font di base
-        this.txtDomanda.style.fontSize = 24;
-
-        // Forza il ridisegno per ottenere l'altezza corretta
-        this.appRef.renderer.render(this.appRef.stage);
+    setDomanda(domanda) {        
+        this.txtDomanda.text = domanda;        
+        this.txtDomanda.style.fontSize = 24;        
+        app.renderer.render(app.stage);
 
         // Adatta la dimensione del font se necessario
         if (this.txtDomanda.height > 100) {
-            this.txtDomanda.style.fontSize = 18;
-            // Forza di nuovo il ridisegno per ottenere la nuova altezza
-            this.appRef.renderer.render(this.appRef.stage);
-        }
-
-        // Centra il testo orizzontalmente
-        this.txtDomanda.position.set((this.appRef.screen.width - this.txtDomanda.width) / 2, 90);
+            this.txtDomanda.style.fontSize = 18;            
+            app.renderer.render(app.stage);
+        }        
+        this.txtDomanda.position.set((app.screen.width - this.txtDomanda.width) / 2, 90);
     }
 }

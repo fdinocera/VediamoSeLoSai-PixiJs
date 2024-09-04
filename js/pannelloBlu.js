@@ -1,109 +1,118 @@
 import { Assets, Sprite, Text } from 'pixi.js';
-import { setRisposteEsatteStage, risposteEsatteStage } from './controlloRisposta';
-import { getStageCounter } from './livelloStage';
-import { showPannelloLivello } from './pannelloLivello';
+import { gQuiz, gDatiGioco, gPannelloBlu, gLivelloStage, gPannelloLivello } from './main';
+import { play3x } from './suoni';
+import { app } from './main';
 
-let pannelloBlu;
-export async function caricaPannelloBlu(app) {
-    
-    const pannelloBluTexture = await Assets.load('./assets/img/pannelloBlu.png');
-    pannelloBlu = Sprite.from(pannelloBluTexture);
-    pannelloBlu.scale = 0.28;
-    pannelloBlu.position.x = (screen.width - pannelloBlu.width) / 2;
-    pannelloBlu.position.y = 90;
-    pannelloBlu.visible = false;
-    app.stage.addChild(pannelloBlu);
-    
-    pannelloBlu.eventMode = 'static';
-    pannelloBlu.on('pointerdown', clickPannelloBlu);
-    pannelloBlu.cursor = 'pointer';
+let pannelloBluTexture;
+export async function preloadPannelloBlu() {
+    pannelloBluTexture = await Assets.load('./assets/img/pannelloBlu.png');
 }
 
-let txt1PannelloBlu;
-let txt2PannelloBlu;
-let txt3PannelloBlu;
+export class PannelloBlu {
+    pannelloBlu;
+    txt1PannelloBlu;
 
-export function creaPannelloBlu(app) {    
+    constructor(callback) {
+        this.pannelloBlu = Sprite.from(pannelloBluTexture);
+        this.pannelloBlu.scale = 0.28;
+        this.pannelloBlu.position.x = (screen.width - this.pannelloBlu.width) / 2;
+        this.pannelloBlu.position.y = 90;
+        this.pannelloBlu.visible = false;
+        this.pannelloBlu.zIndex = 20;
+        app.stage.addChild(this.pannelloBlu);
 
-    //testo1 pannello
-    txt1PannelloBlu = new Text({
-        text: '',
-        style: {
-            fill: '#ffffff', fontFamily: 'BRLNSDB',
-            fontSize: 24,
-            wordWrap: true,
-            wordWrapWidth: 180,
-            align: 'center'
+        this.pannelloBlu.eventMode = 'static';
+        this.pannelloBlu.on('pointerdown', callback);
+        this.pannelloBlu.cursor = 'pointer';
+
+        //testo1 pannello
+        this.txt1PannelloBlu = new Text({
+            text: '',
+            style: {
+                fill: '#ffffff', fontFamily: 'BRLNSDB',
+                fontSize: 24,
+                wordWrap: true,
+                wordWrapWidth: 180,
+                align: 'center'
+            }
+        })
+        this.txt1PannelloBlu.zIndex = 25;
+        app.stage.addChild(this.txt1PannelloBlu);
+
+        //testo2 pannello
+        this.txt2PannelloBlu = new Text({
+            text: '',
+            style: {
+                fill: '#ffffff', fontFamily: 'BRLNSDB',
+                fontSize: 22,
+                wordWrap: true,
+                wordWrapWidth: 180,
+                align: 'center'
+            }
+        })
+        this.txt2PannelloBlu.zIndex = 25;
+        app.stage.addChild(this.txt2PannelloBlu);
+
+        //testo3 pannello
+        this.txt3PannelloBlu = new Text({
+            text: '',
+            style: {
+                fill: '#ffffff', fontFamily: 'BRLNSDB',
+                fontSize: 20,
+                wordWrap: true,
+                wordWrapWidth: 180,
+                align: 'center'
+            }
+        })
+        this.txt3PannelloBlu.zIndex = 25;
+        app.stage.addChild(this.txt3PannelloBlu);
+    }
+
+    show() {
+        //testo1
+        this.txt1PannelloBlu.text = `Stage ${gLivelloStage.getStage()} completato!`;
+        this.txt1PannelloBlu.position.set((screen.width - this.txt1PannelloBlu.width) / 2, 110);
+        this.txt1PannelloBlu.visible = true;
+
+        //testo2        
+        if (gDatiGioco.getRisposteEsatteStage() === 1) {
+            this.txt2PannelloBlu.text = '1 Risposta Esatta';
+        } else {
+            this.txt2PannelloBlu.text = `${gDatiGioco.getRisposteEsatteStage()} Risposte Esatte`;
         }
-    })
-    app.stage.addChild(txt1PannelloBlu);
+        this.txt2PannelloBlu.position.set((screen.width - this.txt2PannelloBlu.width) / 2, 200);
+        this.txt2PannelloBlu.visible = true;
 
-    //testo2 pannello
-    txt2PannelloBlu = new Text({
-        text: '',
-        style: {
-            fill: '#ffffff', fontFamily: 'BRLNSDB',
-            fontSize: 22,
-            wordWrap: true,
-            wordWrapWidth: 180,
-            align: 'center'
-        }
-    })
-    app.stage.addChild(txt2PannelloBlu);
+        //testo3
+        this.txt3PannelloBlu.text = `Hai guadagnato ${gDatiGioco.getRisposteEsatteStage() * 25} punti!`;
+        this.txt3PannelloBlu.position.set((screen.width - this.txt3PannelloBlu.width) / 2, 250);
+        this.txt3PannelloBlu.visible = true;
 
-    //testo1 pannello
-    txt3PannelloBlu = new Text({
-        text: '',
-        style: {
-            fill: '#ffffff', fontFamily: 'BRLNSDB',
-            fontSize: 20,
-            wordWrap: true,
-            wordWrapWidth: 180,
-            align: 'center'
-        }
-    })
-    app.stage.addChild(txt3PannelloBlu);   
+        //visualizza pannello blu    
+        this.pannelloBlu.visible = true;
+    }
+
+    hide() {
+        this.pannelloBlu.visible = false;
+        this.txt1PannelloBlu.visible = false;
+        this.txt2PannelloBlu.visible = false;
+        this.txt3PannelloBlu.visible = false;
+    }
 }
 
-export function showPannelloBlu() {
+//callback pannello blu
+export function clickPannelloBlu() {
 
-    //testo1
-    txt1PannelloBlu.text = `Stage ${getStageCounter()} completato!`;
-    txt1PannelloBlu.position.set((screen.width - txt1PannelloBlu.width) / 2, 110);
-    txt1PannelloBlu.visible = true;
-
-    //testo2
-    if (risposteEsatteStage === 1) {
-        txt2PannelloBlu.text = '1 Risposta Esatta';
+    gPannelloBlu.hide();
+    gDatiGioco.resetRisposteEsatteStage();
+    
+    if (gLivelloStage.getStage() < 10) {
+        gLivelloStage.incrementaStage();
+        gLivelloStage.updateView();
+        gQuiz.quizNext(app);
+        gDatiGioco.popolaCampi();
+        play3x();
     } else {
-        txt2PannelloBlu.text = `${risposteEsatteStage} Risposte Esatte`;
+        gPannelloLivello.show();
     }
-    txt2PannelloBlu.position.set((screen.width - txt2PannelloBlu.width) / 2, 200);
-    txt2PannelloBlu.visible = true;
-
-    //testo3
-    txt3PannelloBlu.text = `Hai guadagnato ${risposteEsatteStage * 25} punti!`;
-    txt3PannelloBlu.position.set((screen.width - txt3PannelloBlu.width) / 2, 250);
-    txt3PannelloBlu.visible = true;
-
-    //visualizza pannello blu
-    pannelloBlu.visible = true;
-}
-
-export function hidePannelloBlu() {
-    pannelloBlu.visible = false;
-    txt1PannelloBlu.visible = false;
-    txt2PannelloBlu.visible = false;
-    txt3PannelloBlu.visible = false;
-}
-
-function clickPannelloBlu() {
-    hidePannelloBlu();
-    setRisposteEsatteStage(0);
-
-    if (getStageCounter() === 10) {
-        showPannelloLivello();
-    }
-    // incrementaLivelloStage();
-    // updateViewLivelloStage();
 }
