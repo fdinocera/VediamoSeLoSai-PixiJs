@@ -1,8 +1,6 @@
 import { Assets, Sprite, Text } from 'pixi.js';
+import { app, gDatiGioco, gPannelloBonus, gPunteggio, gPannelloLivello, gQuiz, gLivelloStage } from './main';
 import { play3x, playDing, playTada } from './suoni';
-import { gDatiGioco, gPannelloBonus, gPunteggio,gPannelloLivello, gQuiz } from './main';
-import { gLivelloStage } from './main';
-import { app } from './main';
 
 let pannelloBonusTexture;
 export async function preloadPannelloBonus() {
@@ -26,7 +24,6 @@ export class PannelloBonus {
         this.pannelloBonus.on('pointerdown', callback);
         this.pannelloBonus.cursor = 'pointer';
         app.stage.addChild(this.pannelloBonus);
-
 
         //testo1 pannello
         this.txt1PannelloBonus = new Text({
@@ -91,7 +88,7 @@ export class PannelloBonus {
         playTada();
     }
 
-    hidePannelloBonus() {
+    hide() {
         this.pannelloBonus.visible = false;
         this.txt1PannelloBonus.visible = false;
         this.txt2PannelloBonus.visible = false;
@@ -109,7 +106,7 @@ export class PannelloBonus {
             this.timeCount += time.deltaTime;
             if (this.timeCount > 13) {
                 this.timeCount = 0;
-                gPunteggio.viewPunti('Punti ' + (pt += 20), app);
+                gPunteggio.view('Punti ' + (pt += 20), app);
                 counter++;
                 playDing();
                 if (counter > 4) {
@@ -127,13 +124,13 @@ export class PannelloBonus {
 //callback click pannello Bonus
 export function clickPannelloBonus() {
 
-    gPannelloBonus.hidePannelloBonus();
+    gPannelloBonus.hide();
     gDatiGioco.resetRisposteEsatteStage();
 
     if (gLivelloStage.getStage() < 10) {
         gLivelloStage.incrementaStage();
         gLivelloStage.updateView();
-        gQuiz.quizNext(app);
+        gQuiz.next(app);
         gDatiGioco.popolaCampi();
         play3x();
     } else {

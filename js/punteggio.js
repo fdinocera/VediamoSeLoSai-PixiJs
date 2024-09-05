@@ -1,6 +1,6 @@
 import { Text } from "pixi.js";
-import { playDing } from "./suoni";
 import { app } from "./main";
+import { playDing } from "./suoni";
 
 export class Punteggio {
     txtPunti;
@@ -19,11 +19,11 @@ export class Punteggio {
                 stroke: { color: '#ffffff', width: 2 }
             }
         })
-        this.viewPunti('Punti 0');
+        this.view('Punti 0');
         app.stage.addChild(this.txtPunti);
     }
 
-    viewPunti(punti) {
+    view(punti) {
         this.txtPunti.text = punti;
         this.txtPunti.position.set((app.screen.width - this.txtPunti.width) / 2, 490);
     }
@@ -36,8 +36,8 @@ export class Punteggio {
             this.timeCount += time.deltaTime;
             if (this.timeCount > 14) {
                 this.timeCount = 0;
-                this.viewPunti('Punti ' + (this.puntiPartita += 5));
-                counter++;
+                this.view('Punti ' + (this.puntiPartita += 5));
+                counter++;                
                 playDing();
                 if (counter > 4) {
                     app.ticker.remove(animatePoints); // Ri\muovi solo questa funzione dal ticker

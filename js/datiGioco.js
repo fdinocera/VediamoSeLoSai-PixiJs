@@ -32,8 +32,8 @@ export class DatiGioco {
     popolaCampi() {
         gArgomento.setArgomento(gQuiz.getArgomento());
         gDomanda.setDomanda(gQuiz.getDomanda());
-        gPulsante1.setTextPulsante(gQuiz.getTextPulsante1());
-        gPulsante2.setTextPulsante(gQuiz.getTextPulsante2());
-        gPulsante3.setTextPulsante(gQuiz.getTextPulsante3());
+        gPulsante1.setText(gQuiz.getTextPulsante1());
+        gPulsante2.setText(gQuiz.getTextPulsante2());
+        gPulsante3.setText(gQuiz.getTextPulsante3());
     }
 }

@@ -1,10 +1,8 @@
 import { Assets, Sprite } from "pixi.js";
-import { play3x } from "./suoni";
 import { gQuiz, gSpuntaVerde, gIcsRossa } from "./main";
 import { gPulsante1, gPulsante2, gPulsante3, gLivelloStage } from "./main";
-import { gDatiGioco, gPannelloBlu, gPannelloBonus } from "./main";
-import { app } from "./main";
-
+import { app, gDatiGioco, gPannelloBlu, gPannelloBonus } from "./main";
+import { play3x } from "./suoni";
 
 let backgroundTexture;
 export async function preloadBackgroundTexture() {
@@ -30,9 +28,9 @@ export class Background {
 export function clickSfondo() {
 
     if (gSpuntaVerde.isVisible()) {
-        gPulsante1.resetPulsante();
-        gPulsante2.resetPulsante();
-        gPulsante3.resetPulsante();
+        gPulsante1.reset();
+        gPulsante2.reset();
+        gPulsante3.reset();
         gSpuntaVerde.hide();
         gIcsRossa.hide();
 
@@ -43,7 +41,7 @@ export function clickSfondo() {
                 gPannelloBonus.showPannelloBonus();
             }
         } else {
-            gQuiz.quizNext();
+            gQuiz.next();
             gDatiGioco.popolaCampi();
             play3x();
         }

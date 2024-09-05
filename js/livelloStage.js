@@ -1,5 +1,5 @@
 import { Text } from "pixi.js";
-import { app, gPannelloFinale, gPannelloLivello } from "./main";
+import { app } from "./main";
 
 export class LivelloStage {
 

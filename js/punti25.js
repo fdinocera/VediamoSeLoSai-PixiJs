@@ -20,7 +20,7 @@ export class ScrittaPunti25 {
         app.stage.addChild(this.punti25Sprite);
     }
 
-    animateScritta25Punti() {
+    animate() {
 
         let counter = 0;
         let timeCount = 0;

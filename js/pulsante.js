@@ -35,18 +35,18 @@ export class Pulsante {
         this.pulsante.cursor = 'pointer';
     }
 
-    setTextPulsante(testo) {
+    setText(testo) {
         this.txtPulsante1.text = testo;
         let x = (app.screen.width - this.txtPulsante1.width) / 2
         let y = (this.pulsante.height - this.txtPulsante1.height) / 2 + this.pulsante.y
         this.txtPulsante1.position.set(x, y);
     } 
 
-    evidenziaPulsante() {
+    evidenzia() {
         this.pulsante.stroke({ width: 5, color: 0xffff00 });
     }
 
-    resetPulsante() {
+    reset() {
         //ridisegna pulsante per eliminare contorno giallo
         this.pulsante.clear();
         this.pulsante.roundRect(0, 0, 200, 60, 15);

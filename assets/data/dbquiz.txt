@@ -1,7 +1,4 @@
-﻿**Laura Lattuada;Nel 1981 l'attrice è protagonista dello sceneggiato televisivo "Storia di Anna" dove interpreta...;Una studentessa diligente;Una tossicodipendente impenitente;Una casalinga di pessima qualità;2
-**Clint Eastwood;Attore, regista, produttore cinematografico è stato anche politico con la carica di...;Governatore;Sindaco;Senatore;2
-**Locuzioni;Dare l'aut aut significa...;Obbligare a scegliere tra due cose;Invitare ad uscire;Annunciare;1
-Abbaia la campagna ...;È un verso di quale canzone di Paolo Conte?;Bartali;Genova per noi;Azzurro;1
+﻿Abbaia la campagna ...;È un verso di quale canzone di Paolo Conte?;Bartali;Genova per noi;Azzurro;1
 Abete;La forma delle sue foglie è...;Ellittica;Aghiforme;Ovata;2
 Abissinia;Era l'antico nome di...;Eritrea;Etiopia;Somalia;2
 Abitazione;È un bene...;Mobile;Mobile registrato;Immobile;3

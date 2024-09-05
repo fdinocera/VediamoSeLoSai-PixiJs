@@ -39,15 +39,15 @@ export class Quiz {
         return parseInt(this.currentQuiz[5]);
     }
 
-    incrementaQuizCounter() {
-        this.quizCounter++;
-    }
+    // incrementaQuizCounter() {
+    //     this.quizCounter++;
+    // }
 
     resetQuizCounter() {
         this.quizCounter = 0;
     }
 
-    quizNext() {
+    next() {
         this.currentQuiz = this.quiz[this.quizCounter].split(';');
         this.quizCounter++;
     }

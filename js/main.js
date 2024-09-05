@@ -1,22 +1,21 @@
 import { Application, Assets } from 'pixi.js';
-import { preloadSpuntaVerdeTexture, SpuntaVerde } from './spuntaVerde.js';
+import { Domanda } from './domanda.js';
 import { IcsRossa } from './icsRossa.js';
 import { Pulsante } from './pulsante.js';
-import { clickPannelloBonus, PannelloBonus, preloadPannelloBonus } from './pannelloBonus.js';
-import { Intestazione } from './intestazione.js';
-import { Background, preloadBackgroundTexture, clickSfondo } from './background.js';
 import { Argomento } from './argomento.js';
-import { preloadDbQuiz, Quiz } from './quiz.js';
-import { Domanda } from './domanda.js';
-import { playPulsante, play3x, playDingErrore } from './suoni.js';
-import { DatiGioco } from './datiGioco.js';
-import { preloadScritta25Punti, ScrittaPunti25 } from './punti25.js';
-import { PannelloBlu, preloadPannelloBlu, clickPannelloBlu } from './pannelloBlu.js';
 import { Punteggio } from './punteggio.js';
-import { PannelloFinale, preloadPannelloFinaleTexture, clickPannelloFinale } from './pannelloFinale.js';
+import { DatiGioco } from './datiGioco.js';
+import { play3x, playDingErrore, playPulsante } from './suoni.js';
+import { Intestazione } from './intestazione.js';
 import { LivelloStage } from './livelloStage.js';
+import { preloadDbQuiz, Quiz } from './quiz.js';
+import { preloadScritta25Punti, ScrittaPunti25 } from './punti25.js';
+import { preloadSpuntaVerdeTexture, SpuntaVerde } from './spuntaVerde.js';
+import { clickPannelloBonus, PannelloBonus, preloadPannelloBonus } from './pannelloBonus.js';
+import { Background, preloadBackgroundTexture, clickSfondo } from './background.js';
+import { PannelloBlu, preloadPannelloBlu, clickPannelloBlu } from './pannelloBlu.js';
+import { PannelloFinale, preloadPannelloFinaleTexture, clickPannelloFinale } from './pannelloFinale.js';
 import { clickPannelloLivello, PannelloLivello, preloadPannelloLivelloTexture } from './pannelloLivello.js';
-
 
 //OGGETTI GLOBALI
 export let app;
@@ -36,6 +35,7 @@ export let gBackground;
 export let gSpuntaVerde;
 export let gIcsRossa;
 export let gLivelloStage;
+
 
 (async () => {
     //app
@@ -61,8 +61,6 @@ export let gLivelloStage;
     await preloadSpuntaVerdeTexture();
     await preloadPannelloFinaleTexture();
     await preloadPannelloLivelloTexture();
-    //caricaPannelloLivello(app);
-    //caricaPannelloFinale(app);
 
     //CREAZIONE OGGETTI GIOCO
     new Intestazione();
@@ -83,13 +81,16 @@ export let gLivelloStage;
     gPulsante2 = new Pulsante(250, pulsante2Click);
     gPulsante3 = new Pulsante(320, pulsante3Click);
     gLivelloStage = new LivelloStage();
-
-    gQuiz.quizNext();
+    
+    gQuiz.next();
     gDatiGioco.popolaCampi();
 
     function pulsante1Click() {
         if (gSpuntaVerde.isVisible()) {
-            gPulsante1.resetPulsante();
+            gPulsante1.reset();
+            gPulsante2.reset();
+            gPulsante3.reset();
+
             gSpuntaVerde.hide();
             gIcsRossa.hide();
 
@@ -100,21 +101,21 @@ export let gLivelloStage;
                     gPannelloBonus.show();
                 }
             } else {
-                gQuiz.quizNext();
+                gQuiz.next();
                 gDatiGioco.popolaCampi();
                 play3x();
             }
         } else {
-            gPulsante1.evidenziaPulsante();
+            gPulsante1.evidenzia();
             playPulsante();
             if (gQuiz.getRispostaEsatta() === 1) {
                 gSpuntaVerde.show(1);
                 gDatiGioco.incrementaPuntiGuadagnati(25);
                 gPunteggio.animateIncrementoPunti();
-                gScrittaPunti25.animateScritta25Punti();
+                gScrittaPunti25.animate();
                 gDatiGioco.incrementaRisposteEsatteStage();
-            } else {
-                playDingErrore();
+            } else {                
+                playDingErrore()
                 gIcsRossa.show(1);
                 gSpuntaVerde.show(gQuiz.getRispostaEsatta());
             }
@@ -123,7 +124,9 @@ export let gLivelloStage;
 
     function pulsante2Click() {
         if (gSpuntaVerde.isVisible()) {
-            gPulsante2.resetPulsante();
+            gPulsante1.reset();
+            gPulsante2.reset();
+            gPulsante3.reset();
             gSpuntaVerde.hide();
             gIcsRossa.hide();
 
@@ -134,20 +137,20 @@ export let gLivelloStage;
                     gPannelloBonus.show();
                 }
             } else {
-                gQuiz.quizNext();
+                gQuiz.next();
                 gDatiGioco.popolaCampi();
                 play3x();
             }
         } else {
-            gPulsante2.evidenziaPulsante();
+            gPulsante2.evidenzia();
             playPulsante();
             if (gQuiz.getRispostaEsatta() === 2) {
                 gSpuntaVerde.show(2);
                 gDatiGioco.incrementaPuntiGuadagnati(25);
                 gPunteggio.animateIncrementoPunti();
-                gScrittaPunti25.animateScritta25Punti();
+                gScrittaPunti25.animate();
                 gDatiGioco.incrementaRisposteEsatteStage();
-            } else {
+            } else {                
                 playDingErrore();
                 gIcsRossa.show(2);
                 gSpuntaVerde.show(gQuiz.getRispostaEsatta());
@@ -157,7 +160,9 @@ export let gLivelloStage;
 
     function pulsante3Click() {
         if (gSpuntaVerde.isVisible()) {
-            gPulsante3.resetPulsante();
+            gPulsante1.reset();
+            gPulsante2.reset();
+            gPulsante3.reset();
             gSpuntaVerde.hide();
             gIcsRossa.hide();
 
@@ -168,24 +173,24 @@ export let gLivelloStage;
                     gPannelloBonus.show();
                 }
             } else {
-                gQuiz.quizNext();
+                gQuiz.next();
                 gDatiGioco.popolaCampi();
                 play3x();
             }
         } else {
-            gPulsante3.evidenziaPulsante();
+            gPulsante3.evidenzia();
             playPulsante();
             if (gQuiz.getRispostaEsatta() === 3) {
                 gSpuntaVerde.show(3);
                 gDatiGioco.incrementaPuntiGuadagnati(25);
                 gPunteggio.animateIncrementoPunti();
-                gScrittaPunti25.animateScritta25Punti();
+                gScrittaPunti25.animate();
                 gDatiGioco.incrementaRisposteEsatteStage();
-            } else {
+            } else {                
                 playDingErrore();
                 gIcsRossa.show(3);
                 gSpuntaVerde.show(gQuiz.getRispostaEsatta());
             }
         }
-    }    
+    }
 })();

@@ -1,8 +1,6 @@
 import { Assets, Sprite, Text } from 'pixi.js';
-import { gLivelloStage, gDatiGioco, gPannelloFinale, gPunteggio, gQuiz } from './main';
+import { app, gLivelloStage, gDatiGioco, gPannelloFinale, gPunteggio, gQuiz } from './main';
 import { play3x, playTada } from './suoni';
-import { app } from './main';
-
 
 let pannelloFinaleTexture;
 export async function preloadPannelloFinaleTexture() {
@@ -84,7 +82,7 @@ export class PannelloFinale {
         playTada();
     }
 
-    hidePannelloFinale() {
+    hide() {
         this.pannelloFinale.visible = false;
         this.txt1PannelloFinale.visible = false;
         this.txt2PannelloFinale.visible = false;
@@ -93,15 +91,15 @@ export class PannelloFinale {
 }
 
 export function clickPannelloFinale() {
-    gPannelloFinale.hidePannelloFinale();
+    gPannelloFinale.hide();
     gDatiGioco.resetRisposteEsatteStage();
     gDatiGioco.resetPuntiGuadagnati();
     gLivelloStage.setStage(1);
     gLivelloStage.setLivello(1);
-    gPunteggio.viewPunti('Punti 0');
+    gPunteggio.view('Punti 0');
     gLivelloStage.updateView();
     gQuiz.resetQuizCounter();
-    gQuiz.quizNext();
+    gQuiz.next();
     gDatiGioco.popolaCampi();
     play3x();
 }

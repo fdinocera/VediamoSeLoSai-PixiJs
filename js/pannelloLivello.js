@@ -1,7 +1,6 @@
 import { Assets, Sprite, Text } from 'pixi.js';
-import { playTada, play3x } from './suoni';
-import { gLivelloStage, gDatiGioco, gPannelloLivello, gQuiz, gPannelloFinale } from './main';
-import { app } from './main';
+import { app, gLivelloStage, gDatiGioco, gPannelloLivello, gQuiz, gPannelloFinale } from './main';
+import { play3x, playTada } from './suoni';
 
 let pannelloLivelloTexture;
 export async function preloadPannelloLivelloTexture() {
@@ -77,7 +76,7 @@ export class PannelloLivello {
         playTada();
     }
 
-    hidePannelloLivello() {
+    hide() {
         this.pannelloLivello.visible = false;
         this.txt1PannelloLivello.visible = false;
         this.txt2PannelloLivello.visible = false;
@@ -88,7 +87,7 @@ export class PannelloLivello {
 //callback Pannello Livello
 export function clickPannelloLivello() {
     
-    gPannelloLivello.hidePannelloLivello();
+    gPannelloLivello.hide();
     gDatiGioco.resetRisposteEsatteStage();
 
     if (gLivelloStage.getLivello() === 10) {
@@ -97,7 +96,7 @@ export function clickPannelloLivello() {
         gLivelloStage.setStage(1)
         gLivelloStage.incrementaLivello();
         gLivelloStage.updateView();
-        gQuiz.quizNext();
+        gQuiz.next();
         gDatiGioco.popolaCampi();
         play3x();
     }    

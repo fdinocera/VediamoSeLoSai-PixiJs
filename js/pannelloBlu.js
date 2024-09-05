@@ -1,7 +1,6 @@
 import { Assets, Sprite, Text } from 'pixi.js';
-import { gQuiz, gDatiGioco, gPannelloBlu, gLivelloStage, gPannelloLivello } from './main';
+import { app, gQuiz, gDatiGioco, gPannelloBlu, gLivelloStage, gPannelloLivello } from './main';
 import { play3x } from './suoni';
-import { app } from './main';
 
 let pannelloBluTexture;
 export async function preloadPannelloBlu() {
@@ -109,7 +108,7 @@ export function clickPannelloBlu() {
     if (gLivelloStage.getStage() < 10) {
         gLivelloStage.incrementaStage();
         gLivelloStage.updateView();
-        gQuiz.quizNext(app);
+        gQuiz.next(app);
         gDatiGioco.popolaCampi();
         play3x();
     } else {
